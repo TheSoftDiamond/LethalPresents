@@ -1,7 +1,7 @@
 {
     "name": "LethalPresents",
-    "version_number": "1.0.9",
-    "website_url": "https://github.com/Azim/LethalPresents",
+    "version_number": "2.0.1",
+    "website_url": "https://github.com/TheSoftDiamond/LethalPresents",
     "description": "A mod which gives Presents a configurable chance of spawning a random enemy when opened.",
     "dependencies": [
 		"BepInEx-BepInExPack-5.4.2100",
