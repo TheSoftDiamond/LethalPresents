@@ -7,58 +7,82 @@
         <Version>1.0.9</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
-    </PropertyGroup>
+
+		<RestoreAdditionalProjectSources>
+			https://api.nuget.org/v3/index.json;
+			https://nuget.bepinex.dev/v3/index.json;
+			https://nuget.samboy.dev/v3/index.json;
+		</RestoreAdditionalProjectSources>
+	</PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
-        <PackageReference Include="BepInEx.Core" Version="5.*" />
+		<PackageReference Include="BepInEx.Core" Version="5.*" />
+		<PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
-        <PackageReference Include="UnityEngine.Modules" Version="2022.3.9" IncludeAssets="compile" />
+        <PackageReference Include="LethalCompany.GameLibs.Steam" Version="73.0.0-ngd.0" PrivateAssets="all" />
+        <PackageReference Include="MonoMod.RuntimeDetour.HookGen" Version="22.7.31.1" PrivateAssets="all" />
+        <PackageReference Include="UnityEngine.Modules" Version="2022.3.9" IncludeAssets="compile" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
     </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\Assembly-CSharp-nstrip.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <!--
-      <Reference Include="LethalLib">
-      <HintPath>C:\Users\figaR\AppData\Roaming\r2modmanPlus-local\LethalCompany\profiles\MyTest\BepInEx\plugins\Evaisa-LethalLib\LethalLib\LethalLib.dll</HintPath>
-    </Reference>
-    -->
-    <Reference Include="MMHOOK_Assembly-CSharp">
-      <HintPath>..\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Collections">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Unity.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Unity.InputSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Netcode.Components">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Unity.Netcode.Components.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Netcode.Runtime">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Unity.Netcode.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Networking.Transport">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Unity.Networking.Transport.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+    <ItemGroup>
+      <Reference Include="BepInEx.MonoMod.HookGenPatcher">
+        <HintPath>..\..\Libs\BepInEx.MonoMod.HookGenPatcher.dll</HintPath>
+      </Reference>
+      <Reference Include="BrutalCompanyMinus">
+        <HintPath>C:\Users\softd\AppData\Roaming\com.kesomannen.gale\lethal-company\profiles\BCDev2\BepInEx\plugins\SoftDiamond-BrutalCompanyMinusExtraReborn\BrutalCompanyMinus.dll</HintPath>
+      </Reference>
+      <Reference Include="MMHOOK_Assembly-CSharp">
+        <HintPath>..\..\Libs\MMHOOK_Assembly-CSharp.dll</HintPath>
+      </Reference>
+      <Reference Include="MonoMod">
+        <HintPath>..\..\Libs\MonoMod.dll</HintPath>
+      </Reference>
+      <Reference Include="MonoMod.RuntimeDetour.HookGen">
+        <HintPath>..\..\Libs\MonoMod.RuntimeDetour.HookGen.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;%25AppData%25\r2modmanPlus-local\LethalCompany\profiles\MyTest\BepInEx\plugins\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)\publish\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(SolutionDir)\README.md&quot; &quot;$(SolutionDir)\publish\README.md&quot;" />
-    </Target>
+
+	<PropertyGroup>
+		<!-- Steam library folder -->
+		<SteamLibrary>D:\SteamLibrary\steamapps\common</SteamLibrary>
+
+		<!-- Lethal Company plugins folder -->
+		<PluginsFolder>$(SteamLibrary)\Lethal Company\BepInEx\plugins</PluginsFolder>
+
+		<!-- Gale profile name -->
+		<GaleProfile>BCDev2</GaleProfile>
+
+		<!-- Gale plugins folder -->
+		<GalePluginsFolder>$(AppData)\com.kesomannen.gale\lethal-company\profiles\$(GaleProfile)\BepInEx\plugins\SoftDiamond-LethalPresents</GalePluginsFolder>
+
+		<!-- Other settings -->
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Optimize>False</Optimize>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<Target Name="NetcodePatch" AfterTargets="PostBuildEvent">
+		<Exec Command="netcode-patch -uv 2022.3.62 -nv 1.12.0 -tv 1.0.0 &quot;$(TargetPath)&quot; @(ReferencePathWithRefAssemblies->'&quot;%(Identity)&quot;', ' ')" />
+	</Target>
+
+	<Target Name="CopyToPluginsFolder" AfterTargets="PostBuildEvent">
+		<Copy DestinationFolder="$(PluginsFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+	</Target>
+
+	<Target Name="CopyToGalePluginsFolder" AfterTargets="CopyToPluginsFolder">
+		<Copy DestinationFolder="$(GalePluginsFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+	</Target>	
 </Project>
